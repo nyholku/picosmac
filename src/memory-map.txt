@@ -1,0 +1,5 @@
+vip-pic...
+must move the main interrupt code to ram and 
+
+telmac rom  0x2000 0x200
+cosmac pic, 0x2200 0x300 , runs from RAM

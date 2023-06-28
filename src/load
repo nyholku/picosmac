@@ -1,0 +1,1 @@
+../pk2cmd/pk2cmd -b../pk2cmd -f$2 -pPIC$1 -e -m -j -r
