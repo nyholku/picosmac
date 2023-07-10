@@ -1,5 +1,7 @@
 # picosmac
 
+![RAC-Snoopy title image](https://github.com/nyholku/picosmac/blob/main/rca-snoopy.JPG?raw=true)
+
 PICOSMAC is a Cosmac VIP emulator for PIC18F4550.
 
 It emulates both the RCA COSMAC CDP1802 processors as well as the CDP1861 video display 
