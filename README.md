@@ -11,4 +11,6 @@ The emulator includes the original monitor ROM and CHIP8 interpreter and some of
 original games, but it also runs CDP1802 machine code and given the right hardware you should be able
 even load old COSMAC programs from C-casette tapes!
 
-For more info refer to an artile published in Nuts and Volts.
+For more info refer to an [artile published in Nuts and Volts](https://www.nutsvolts.com/magazine/article/picosmac-back-to-the-past).
+
+
