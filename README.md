@@ -11,7 +11,7 @@ The emulator includes the original COSMAC ROM and CHIP8 interpreter and some of 
 original games, but it also runs CDP1802 machine code and given the right hardware you should be able
 even load old COSMAC programs from C-cassette tapes!
 
-For more info refer to an article published in Nuts and Volts.
+For more info refer to an [artile published in Nuts and Volts](https://www.nutsvolts.com/magazine/article/picosmac-back-to-the-past).
 
 To use the code you just need to program the ```cosmac.hex``` file
 it into a PIC18F4550 with PICKit 2 or something similar.
