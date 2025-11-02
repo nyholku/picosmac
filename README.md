@@ -52,7 +52,7 @@ The 1802 Java emulator is automatically generated and can be regenerated
 by running the ```Gen1802SimuJavaCode().run()```, see ```cosmac.Main.java```
  for an example.
 
-Of interest maybe also class MakeChip8 which converts .ch8 hex code
+Of interest maybe also class MakeChip8 which converts ```.ch8``` hex code
 to format digestible for ```gpasm``` to be included with PICOSMAC emulator.
 
 The class CDP1802Assembler contains a trivial assembler/disassembler that
