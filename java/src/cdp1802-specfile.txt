@@ -1,0 +1,460 @@
+0N
+LDN
+LOAD VIA N
+D = M[R(N)] 
+
+4N
+LDA
+LOAD ADVANCE
+D = M[R(N)]; inc(N,1)
+
+F0
+LDX
+LOAD VIA X
+D = M[R(X)] 
+
+72
+LDXA
+LOAD VIA X AND ADVANCE
+D = M[R(X)]; inc(X,+1)
+
+F8
+LDl
+LOAD IMMEDIATE
+D = M[R(P)]; inc(P,+1)
+
+5N
+STR
+STORE VIA N
+M[R(N)] = D  
+
+73
+STXD
+STORE VIA X AND DECREMENT
+M[R(X)] = D; inc(X,-1) 
+
+1N
+inc
+INCREMENT REG N
+inc(X,+1)
+
+2N
+DEC
+DECREMENT REG N
+inc(N,-1) 
+
+60
+IRX
+INCREMENT REG X
+inc(X,+1) 
+
+8N
+GLO
+GET LOW REG N
+D = R[0][N];
+
+AN
+PLO
+PUT LOW REG N
+R[0][N] = D
+
+9N
+GHl
+GET HIGH REG N
+D = R[1][N]
+
+BN
+PHI
+PUT HIGH REG N
+R[1][N] = D
+
+F1
+OR
+OR
+D = M[R(X)] | D 
+
+F9
+ORI
+OR IMMEDIATE
+D = M[R(P)] | D; inc(P,+1)
+
+F3
+XOR
+EXCLUSIVE OR
+D = M[R(X)] ^ D 
+
+FB
+XRI
+EXCLUSIVE OR IMMEDIATE
+D = M[R(P)] ^ D; inc(P,+1)
+
+F2
+AND
+AND
+D = M[R(X)] & D
+
+FA
+ANl
+AND IMMEDIATE
+D = M[R(P)] & D; inc(P,+1)
+
+F6
+SHR
+SHIFT RIGHT
+DF = D & 1 ; D = D >> 1 
+
+76
+SHRC
+SHIFT RIGHT WITH CARRY
+D = (DF << 8) | D ; DF = D & 1 ; D = D >> 1
+
+FE
+SHL
+SHIFT LEFT
+DF = (D >> 7) & 1; D = D << 1; D &= 0xFF;
+
+7E
+SHLC
+SHIFT LEFT WITH CARRY
+D = (D << 1) | DF ; DF = D >> 8; D &= 0xFF
+
+F4
+ADD
+ADD
+D = M[R(X)] + D ; DF = D >> 8; D &= 0xFF
+
+FC
+ADl
+ADD IMMEDIATE
+D = M[R(P)] + D ; DF = D >> 8; D &= 0xFF ; inc(P,+1)
+
+74
+ADC
+ADD WITH CARRY
+D = M[R(X)] + D + DF ; DF = D >> 8; D &= 0xFF
+
+7C
+ADCI
+ADD WITH CARRY, IMMEDIATE
+D = M[R(P)] + D + DF; DF = D >> 8; D &= 0xFF ; inc(P,+1)
+
+F5
+SD
+SUBTRACT D
+D = M[R(X)] - D ; DF = (D >> 8) & 1; D &= 0xFF
+
+FD
+SDl
+SUBTRACT D IMMEDIATE
+D = M[R(P)] - D ; DF = (D >> 8) & 1; D &= 0xFF ; inc(P,+1)
+
+75
+SDB
+SUBTRACT D WITH BORROW
+D = M[R(X)] - D - (DF^1) ; DF = (D >> 8) & 1; D &= 0xFF
+
+7D
+SDBl
+SUBTRACT D WITH BORROW, IMMEDIATE
+D = M[R(P)] - D - (DF^1) ; DF = (D >> 8) & 1; D &= 0xFF ; inc(P,+1)
+
+F7
+SM
+SUBTRACT MEMORY
+D = D - M[R(X)] ; DF = (D >> 8) & 1; D &= 0xFF
+
+FF
+SMl
+SUBTRACT MEMORY IMMEDIATE
+D = D - M[R(P)] ; DF = (D >> 8) & 1; D &= 0xFF ; inc(P,+1)
+
+77
+SMB
+SUBTRACT MEMORY WITH BORROW
+D = D - M[R(X)] - (DF^1) ; DF = (D >> 8) & 1; D &= 0xFF
+
+7F
+SMBl
+SUBTRACT MEMORY WITH BORROW, IMMEDI- ATE
+D = D - M[R(P)] - (DF^1) ; DF = (D >> 8) & 1; D &= 0xFF ; inc(P,+1)
+
+30
+BR
+SHORT BRANCH
+branchif(true)
+
+32
+BZ
+SHORT BRANCH IF D = 0
+branchif (D == 0)
+
+3A
+BNZ
+SHORT BRANCH IF D NOT 0
+branchif (D != 0)
+
+33
+BDF
+SHORT BRANCH IF DF = 1
+branchif (DF == 1)
+
+3B
+BNF
+SHORT BRANCH IF DF = 0
+branchif (DF == 0) 
+
+31
+BQ
+SHORT BRANCH IF Q = 1
+branchif (Q == 1) 
+
+39
+BNQ
+SHORT BRANCH IF Q = 0
+branchif (Q == 0)
+
+34
+B1
+SHORT BRANCH IF EF(1) = 1 [EF(1) = VSS]
+branchif (EF(1) ==1) 
+
+3C
+BN1
+SHORT BRANCH IF EF(1) = 0 [EF(1) = VCC]
+branchif (EF(1) == 0)
+
+35
+B2
+SHORT BRANCH IF EF(2) = 1 [EF(2) = VSS]
+branchif( EF(2) == 1)
+
+3D
+BN2
+SHORT BRANCH IF EF(2) = 0 [EF(2) = VCC]
+branchif(EF(2) == 0)
+
+36
+B3
+SHORT BRANCH IF EF(3) = 1 [EF(3) = VSS]
+branchif( EF(3) == 1)
+
+3E
+BN3
+SHORT BRANCH IF EF(3) = 0 [EF(3) = VCC]
+branchif( EF(3) == 0)
+
+37
+B4
+SHORT BRANCH IF EF(4) = 1 [EF(4) = VSS]
+branchif( EF(4) == 1)
+
+3F
+BN4
+SHORT BRANCH IF EF(4) = 0 [EF(4) = VCC]
+branchif( EF(4) == 0)
+
+C0
+LBR
+LONG BRANCH
+lbranchif(true) 
+
+C2
+LBZ
+LONG BRANCH IF D = 0
+lbranchif( D == 0)
+
+CA
+LBNZ
+LONG BRANCH IF D NOT 0
+lbranchif( D != 0)
+
+C3
+LBDF
+LONG BRANCH IF DF = 1
+lbranchif( DF == 1)
+
+CB
+LBNF
+LONG BRANCH IF DF = 0
+lbranchif( DF == 0)
+
+C1
+LBQ
+LONG BRANCH IF Q = 1
+lbranchif( Q == 1)
+
+C9
+LBNQ
+LONG BRANCH lF Q = 0
+lbranchif( Q == 0)
+
+38
+SKP
+SHORT SKIP [See NBR]
+branchif(false)
+
+C8
+LSKP
+LONG SKIP [See NLBR]
+lskip(true)
+
+CE
+LSZ
+LONG SKIP IF D = 0
+lskip( D == 0 )
+
+C6
+LSNZ
+LONG SKIP IF D NOT 0
+lskip( D != 0 )
+
+CF
+LSDF
+LONG SKIP IF DF = 1
+lskip( DF == 1 )
+
+C7
+LSNF
+LONG SKIP IF DF = 0
+lskip( DF == 0 )
+
+CD
+LSQ
+LONG SKIP lF Q = 1
+lskip( Q == 1 )
+
+C5
+LSNQ
+LONG SKIP IF Q = 0
+lskip( Q == 0 )
+
+CC
+LSlE
+LONG SKIP IF lE = 1
+lskip( IE == 1 )
+
+00
+lDL
+IDLE
+waitint()
+
+C4
+NOP
+NO OPERATION
+
+
+DN
+SEP
+SET P
+P = N
+
+EN
+SEX
+SET X
+X = N
+
+7B
+SEQ
+SET Q
+Q = 1
+
+7A
+REQ
+RESET Q
+Q = 0
+
+78
+SAV
+SAVE
+M[R(X)] = T
+
+79
+MARK
+PUSH X, P TO STACK
+T = (X<<4) |  P;  M[R(2)] = T;  X = P ; inc(2,-1)
+
+70
+RET
+RETURN
+T = M[R(X)] ; X = T >> 4 ; P = T & 0xF; R(X, R(X) + 1); IE = 1
+
+71
+DlS
+DISABLE
+T = M[R(X)] ; X = T >> 4 ; P = T & 0xF; R(X, R(X) + 1); IE = 0
+
+61
+OUT 1
+OUTPUT 1
+out(1)
+
+62
+OUT 2
+OUTPUT 2
+out(2)
+
+63
+OUT 3
+OUTPUT 3
+out(3)
+
+64
+OUT 4
+OUTPUT 4
+out(4)
+
+65
+OUT 5
+OUTPUT 5
+out(5)
+
+66
+OUT 6
+OUTPUT 6
+out(6)
+
+67
+OUT 7
+OUTPUT 7
+out(7)
+
+68
+UNDEFINED
+UNDEFINED
+undef()
+
+69
+INP 1
+INPUT 1
+inp(1)
+
+6A
+INP 2
+INPUT 2
+inp(2)
+
+6B
+INP 3
+INPUT 3
+inp(3)
+
+6C
+INP 4
+INPUT 4
+inp(4)
+
+6D
+INP 5
+INPUT 5
+inp(5)
+
+6E
+INP 6
+INPUT 6
+inp(6)
+
+6F
+INP 7
+INPUT 7
+inp(7)
+

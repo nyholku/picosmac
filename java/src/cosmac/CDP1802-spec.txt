@@ -1,0 +1,479 @@
+0N
+LDN
+LOAD VIA N
+D = M[R(N)] 
+loadNtoFSR0(N); FSR0toFSR1; MOVFF INDF1,REG_D
+
+4N
+LDA
+LOAD ADVANCE
+D = M[R(N)]; inc(N,1)
+loadNtoFSR0	(N);  FSR0toFSR1; MOVFF INDF1,REG_D ; incN(N)
+
+F0
+LDX
+LOAD VIA X
+D = M[R(X)] 
+loadXtoFSR0; FSR0toFSR1; MOVFF INDF1,REG_D
+
+72
+LDXA
+LOAD VIA X AND ADVANCE
+D = M[R(X)]; inc(X,+1)
+loadXtoFSR0; FSR0toFSR1; MOVFF INDF1,REG_D; MOVFF INDF1,REG_D; incX
+
+F8
+LDI
+LOAD IMMEDIATE
+D = M[R(P)]; inc(P,+1)
+MOVFF POSTINC1,REG_D; incP
+
+5N
+STR
+STORE VIA N
+M[R(N)] = D  
+loadNtoFSR0(N); FSR0toFSR1; MOVFF REG_D,INDF1
+
+73
+STXD
+STORE VIA X AND DECREMENT
+M[R(X)] = D; inc(X,-1) 
+loadXtoFSR0; FSR0toFSR1; MOVFF REG_D,INDF1; decX
+
+1N
+INC
+INCREMENT REG N
+inc(N,+1)
+incN(N)
+
+2N
+DEC
+DECREMENT REG N
+inc(N,-1) 
+decN(N)
+
+60
+IRX
+INCREMENT REG X
+inc(X,+1) 
+incX
+
+8N
+GLO
+GET LOW REG N
+D = R[0][N];
+loadNtoFSR0(N); MOVFF PREINC0,REG_D
+
+AN
+PLO
+PUT LOW REG N
+R[0][N] = D
+loadNtoFSR0(N); MOVFF REG_D,PREINC0
+
+9N
+GHI
+GET HIGH REG N
+D = R[1][N]
+loadNtoFSR0(N); MOVFF INDF0,REG_D
+
+BN
+PHI
+PUT HIGH REG N
+R[1][N] = D
+loadNtoFSR0(N); MOVFF REG_D,INDF0
+
+F1
+OR
+OR
+D = M[R(X)] | D 
+loadXtoFSR0; FSR0toFSR1; MOVF INDF1, w, a; IORWF REG_D, f, a
+
+F9
+ORI
+OR IMMEDIATE
+D = M[R(P)] | D; inc(P,+1)
+MOVF INDF0,w,a; MOVF INDF1, w, a; IORWF REG_D, f, a; incP 
+
+F3
+XOR
+EXCLUSIVE OR
+D = M[R(X)] ^ D 
+loadXtoFSR0; FSR0toFSR1; MOVF INDF1, w, a; XORWF REG_D, f, a
+
+FB
+XRI
+EXCLUSIVE OR IMMEDIATE
+D = M[R(P)] ^ D; inc(P,+1)
+MOVF INDF0,w,a; MOVF INDF1, w, a; XORWF REG_D, f, a; incP 
+
+F2
+AND
+AND
+D = M[R(X)] & D
+loadXtoFSR0; FSR0toFSR1; MOVF INDF1, w, a; ANDWF REG_D, f, a
+
+FA
+ANI
+AND IMMEDIATE
+D = M[R(P)] & D; inc(P,+1)
+MOVF INDF0,w,a; MOVF INDF1, w, a; ANDWF REG_D, f, a; incP 
+
+F6
+SHR
+SHIFT RIGHT
+DF = D & 1 ; D = D >> 1 
+CLRF WREG, a; RRCF WREG,w,a; RRCF REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a;
+
+76
+SHRC
+SHIFT RIGHT WITH CARRY
+D = (DF << 8) | D ; DF = D & 1 ; D = D >> 1
+RRCF REG_DF,w,a; RRCF REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a;
+
+FE
+SHL
+SHIFT LEFT
+DF = (D >> 7) & 1; D = D << 1; D &= 0xFF;
+CLRF WREG, a; RRCF WREG,w,a; RLCF REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a;
+
+7E
+SHLC
+SHIFT LEFT WITH CARRY
+D = (D << 1) | DF ; DF = D >> 8; D &= 0xFF
+RRCF REG_DF,w,a; RLCF REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a;
+
+F4
+ADD
+ADD
+D = M[R(X)] + D ; DF = D >> 8; D &= 0xFF
+loadXtoFSR0; FSR0toFSR1; MOVF INDF1, w, a; ADDWF REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a
+
+FC
+ADI
+ADD IMMEDIATE
+D = M[R(P)] + D ; DF = D >> 8; D &= 0xFF ; inc(P,+1)
+MOVF INDF1, w, a; ADDWF REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a; incP
+
+74
+ADC
+ADD WITH CARRY
+D = M[R(X)] + D + DF ; DF = D >> 8; D &= 0xFF
+loadXtoFSR0; FSR0toFSR1; RRCF REG_DF, w, a; MOVF INDF1, w, a; ADDWFC REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a
+
+7C
+ADCI
+ADD WITH CARRY, IMMEDIATE
+D = M[R(P)] + D + DF; DF = D >> 8; D &= 0xFF ; inc(P,+1)
+RRCF REG_DF, w, a; MOVF INDF1, w, a; ADDWFC REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a; incP
+
+F5
+SD
+SUBTRACT D
+D = M[R(X)] - D ; DF = ((D >> 8) & 1) ^ 1; D &= 0xFF
+loadXtoFSR0; FSR0toFSR1; MOVLW 1; RRCF WREG, f, a; MOVF INDF1, w, a; SUBFWB REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a
+
+FD
+SDI
+SUBTRACT D IMMEDIATE
+D = M[R(P)] - D ; DF = ((D >> 8) & 1) ^ 1; D &= 0xFF ; inc(P,+1)
+MOVLW 1; RRCF WREG, f, a; MOVF INDF1, w, a; SUBFWB REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a; incP
+
+75
+SDB
+SUBTRACT D WITH BORROW
+D = M[R(X)] - D - (DF^1) ; DF =((D >> 8) & 1) ^ 1; D &= 0xFF
+loadXtoFSR0; FSR0toFSR1; RRCF REG_DF, w, a; MOVF INDF1, w, a; SUBFWB REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a
+
+7D
+SDBI
+SUBTRACT D WITH BORROW, IMMEDIATE
+D = M[R(P)] - D - (DF^1) ;DF = ((D >> 8) & 1) ^ 1; D &= 0xFF ; inc(P,+1)
+RRCF REG_DF, w, a; MOVF INDF1, w, a; SUBFWB REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a; incP
+
+F7
+SM
+SUBTRACT MEMORY
+D = D - M[R(X)] ; DF = ((D >> 8) & 1) ^ 1; D &= 0xFF
+loadXtoFSR0; FSR0toFSR1; MOVF INDF1, w, a; SUBWF REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a
+
+FF
+SMI
+SUBTRACT MEMORY IMMEDIATE
+D = D - M[R(P)] ; DF = ((D >> 8) & 1) ^ 1; D &= 0xFF ; inc(P,+1)
+MOVF INDF1, w, a; SUBWF REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a; incP
+
+77
+SMB
+SUBTRACT MEMORY WITH BORROW
+D = D - M[R(X)] - (DF^1) ; DF = ((D >> 8) & 1) ^ 1; D &= 0xFF
+loadXtoFSR0; FSR0toFSR1; RRCF REG_DF, w, a; MOVF INDF1, w, a; SUBWFB REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a
+
+7F
+SMBI
+SUBTRACT MEMORY WITH BORROW, IMMEDIATE
+D = D - M[R(P)] - (DF^1) ; DF  = ((D >> 8) & 1) ^ 1; D &= 0xFF ; inc(P,+1)
+RRCF REG_DF, w, a; MOVF INDF1, w, a; SUBWFB REG_D, f, a; CLRF REG_DF, a; RLCF REG_DF, f, a; incP
+
+30
+BR
+SHORT BRANCH
+branchif(true)
+BRA $+6; sbranch
+
+32
+BZ
+SHORT BRANCH IF D = 0
+branchif (D == 0)
+MOVF	REG_D, w, a; BZ $+6; sbranch
+
+3A
+BNZ
+SHORT BRANCH IF D NOT 0
+branchif (D != 0)
+MOVF	REG_D, w, a; BNZ $+6; sbranch
+
+33
+BDF
+SHORT BRANCH IF DF = 1
+branchif (DF == 1)
+MOVF	REG_DF, w, a; BNZ $+6; sbranch
+
+3B
+BNF
+SHORT BRANCH IF DF = 0
+branchif (DF == 0) 
+MOVF	REG_DF, w, a; BZ $+6; sbranch
+
+31
+BQ
+SHORT BRANCH IF Q = 1
+branchif (Q == 1) 
+MOVF	REG_Q, w, a; BNZ $+6; sbranch
+
+39
+BNQ
+SHORT BRANCH IF Q = 0
+branchif (Q == 0)
+MOVF	REG_Q, w, a; BZ $+6; sbranch
+
+34
+B1
+SHORT BRANCH IF EF(1) = 1 [EF(1) = VSS]
+branchif (EF(1) ==1) 
+MOVF	EF1, w, a; BNZ $+6; sbranch
+
+3C
+BN1
+SHORT BRANCH IF EF(1) = 0 [EF(1) = VCC]
+branchif( EF(1) == 0)
+MOVF	EF1, w, a; BZ $+6; sbranch
+
+35
+B2
+SHORT BRANCH IF EF(2) = 1 [EF(2) = VSS]
+branchif( EF(2) == 1)
+MOVF	EF2, w, a; BNZ $+6; sbranch
+
+3D
+BN2
+SHORT BRANCH IF EF(2) = 0 [EF(2) = VCC]
+branchif(EF(2) == 0)
+MOVF	EF2, w, a; BZ $+6; sbranch
+
+36
+B3
+SHORT BRANCH IF EF(3) = 1 [EF(3) = VSS]
+branchif( EF(3) == 1)
+MOVF	EF3, w, a; BNZ $+6; sbranch
+
+3E
+BN3
+SHORT BRANCH IF EF(3) = 0 [EF(3) = VCC]
+branchif( EF(3) == 0)
+MOVF	EF3, w, a; BZ $+6; sbranch
+
+37
+B4
+SHORT BRANCH IF EF(4) = 1 [EF(4) = VSS]
+branchif( EF(4) == 1)
+MOVF	EF4, w, a; BNZ $+6; sbranch
+
+3F
+BN4
+SHORT BRANCH IF EF(4) = 0 [EF(4) = VCC]
+branchif( EF(4) == 0)
+MOVF	EF4, w, a; BZ $+6; sbranch
+
+C0
+LBR
+LONG BRANCH
+lbranchif(true) 
+BRA $+6; lbranch
+
+C2
+LBZ
+LONG BRANCH IF D = 0
+lbranchif( D == 0)
+MOVF	REG_D, w, a; BZ $+6; lbranch
+
+CA
+LBNZ
+LONG BRANCH IF D NOT 0
+lbranchif( D != 0)
+MOVF	REG_D, w, a; BNZ $+6; lbranch
+
+C3
+LBDF
+LONG BRANCH IF DF = 1
+lbranchif( DF == 1)
+MOVF	REG_DF, w, a; BNZ $+6; lbranch
+
+CB
+LBNF
+LONG BRANCH IF DF = 0
+lbranchif( DF == 0)
+MOVF	REG_DF, w, a; BZ $+6; lbranch
+
+C1
+LBQ
+LONG BRANCH IF Q = 1
+lbranchif( Q == 1)
+MOVF	REG_Q, w, a; BNZ $+6; lbranch
+
+C9
+LBNQ
+LONG BRANCH lF Q = 0
+lbranchif( Q == 0)
+MOVF	REG_Q, w, a; BZ $+6; lbranch
+
+38
+SKP
+SHORT SKIP [See NBR]
+branchif(false)
+sbranch
+
+C8
+LSKP
+LONG SKIP [See NLBR]
+lskip(true)
+BRA $+6; lskip
+
+CE
+LSZ
+LONG SKIP IF D = 0
+lskip( D == 0 )
+MOVF	REG_D, w, a; BZ $+6; lskip
+
+C6
+LSNZ
+LONG SKIP IF D NOT 0
+lskip( D != 0 )
+MOVF	REG_D, w, a; BNZ $+6; lskip
+
+CF
+LSDF
+LONG SKIP IF DF = 1
+lskip( DF == 1 )
+MOVF	REG_DF, w, a; BNZ $+6; lskip
+
+C7
+LSNF
+LONG SKIP IF DF = 0
+lskip( DF == 0 )
+MOVF	REG_DF, w, a; BZ $+6; lskip
+
+CD
+LSQ
+LONG SKIP lF Q = 1
+lskip( Q == 1 )
+MOVF	REG_Q, w, a; BNZ $+6; lskip
+
+C5
+LSNQ
+LONG SKIP IF Q = 0
+lskip( Q == 0 )
+MOVF	REG_Q, w, a; BZ $+6; lskip
+
+CC
+LSIE
+LONG SKIP IF lE = 1
+lskip( IE == 1 )
+MOVF	REG_IE, w, a; BNZ $+6; lskip
+
+00
+IDL
+IDLE
+waitint()
+
+
+C4
+NOP
+NO OPERATION
+
+
+
+DN
+SEP
+SET P
+P = N
+MOVLW (N); MOVWF REG_P, a
+
+EN
+SEX
+SET X
+X = N
+MOVLW (N); MOVWF REG_X, a
+
+7B
+SEQ
+SET Q
+Q = 1
+MOVLW 1; MOVWF REG_Q, a
+
+7A
+REQ
+RESET Q
+Q = 0
+MOVLW 0; MOVWF REG_Q, a
+
+78
+SAV
+SAVE
+M[R(X)] = T
+loadXtoFSR0; FSR0toFSR1; MOVFF REG_T,INDF1
+
+79
+MARK
+PUSH X, P TO STACK
+T = (X<<4) |  P;  M[R(2)] = T;  X = P ; inc(2,-1)
+MOVF REG_X, w, a; MULLW 16; MOVF REG_P, w, a; IORWF PRODL, w, a; MOVWF REG_T, a; loadNtoFSR0(2); FSR0toFSR1; MOVFF REG_T,INDF1; MOVFF REG_P,REG_X; decN(2)
+
+70
+RET
+RETURN
+T = M[R(X)] ; X = T >> 4 ; P = T & 0xF; R(X, R(X) + 1); IE = 1
+loadXtoFSR0; FSR0toFSR1; MOVFF INDF1,REG_T; MOVFF REG_T,REG_X; RRNCF REG_X, f, a; RRNCF REG_X, f, a; RRNCF REG_X, f, a; RRNCF REG_X, f, a; MOVFF REG_T,REG_P; MOVLW 0xF;ANDWF REG_P, f, a; incX; MOVLW 1; MOVWF REG_IE, a
+
+71
+DIS
+DISABLE
+T = M[R(X)] ; X = T >> 4 ; P = T & 0xF; R(X, R(X) + 1); IE = 0
+loadXtoFSR0; FSR0toFSR1; MOVFF INDF1,REG_T; MOVFF REG_T,REG_X; RRNCF REG_X, f, a; RRNCF REG_X, f, a; RRNCF REG_X, f, a; RRNCF REG_X, f, a; MOVFF REG_T,REG_P; MOVLW 0xF;ANDWF REG_P, f, a; incX; MOVLW 0; MOVWF REG_IE, a
+
+61
+OUT
+INOUT
+out(1)
+output(1)
+
+69
+INP
+INOUT
+inp(1)
+input(1)
+
+68
+STOP
+CDFP1802 does not define operation on opcode 68 so we use it as a STOP simulation marker
+undef()
+
