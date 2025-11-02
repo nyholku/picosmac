@@ -32,7 +32,7 @@ and can be run by holding one of the keys 1-9 while resetting the PIC.
 Holding down C while resetting will enter the COSMAC monitor program.
 
 You can read all about the monitor program from the original manual:
-![COSMAC VIP Instruction Manual] (http://www.bitsavers.org/components/rca/cosmac/COSMAC_VIP_Instruction_Manual_1978.pdf)
+[COSMAC VIP Instruction Manual](http://www.bitsavers.org/components/rca/cosmac/COSMAC_VIP_Instruction_Manual_1978.pdf)
 
 The ```java/``` folder contains a few tools that were used when I developed the
 PICOSMAC emulator.
