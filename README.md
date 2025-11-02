@@ -25,7 +25,7 @@ is required.
 
 All the code need to simulate 1802/1861 is in the ```src/``` folder.
 
-The ```src/cosmac``` folder contains CHIP8 games that used to come with COSMAC ELF
+The ```src/cosmac``` folder contains CHIP8 games that used to come with COSMAC VIP
 in the bygone days. These are included with the ```cosmac.hex``` file
 and can be run by holding one of the keys 1-9 while resetting the PIC.
 
