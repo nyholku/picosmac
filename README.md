@@ -23,13 +23,16 @@ To re-compile the code you will need ```gputils```, the development was done
 on macOS so Linux compilation may require small tweaks, on Windows maybe more
 is required.
 
-All the code need to simulate 1802/1861 is in the src/ folder.
+All the code need to simulate 1802/1861 is in the ```src/``` folder.
 
 The ```src/cosmac``` folder contains CHIP8 games that used to come with COSMAC ELF
 in the bygone days. These are included with the ```cosmac.hex``` file
 and can be run by holding one of the keys 1-9 while resetting the PIC.
 
 Holding down C while resetting will enter the COSMAC monitor program.
+
+You can read all about the monitor program from the original manual:
+![COSMAC VIP Instruction Manual] (http://www.bitsavers.org/components/rca/cosmac/COSMAC_VIP_Instruction_Manual_1978.pdf)
 
 The ```java/``` folder contains a few tools that were used when I developed the
 PICOSMAC emulator.
